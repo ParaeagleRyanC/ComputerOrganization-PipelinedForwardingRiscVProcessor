@@ -1,0 +1,12 @@
+#-----------------------------------------------------------
+# Webtalk v2019.2 (64-bit)
+# SW Build 2708876 on Wed Nov  6 21:39:14 MST 2019
+# IP Build 2700528 on Thu Nov  7 00:09:20 MST 2019
+# Start of session at: Mon Mar 27 14:55:55 2023
+# Process ID: 1390
+# Current directory: /auto/fsb/ryan9801/ECEN_323/lab11/proj_final_processor/proj_final_processor.sim/sim_2/behav/xsim
+# Command line: wbtcv -mode batch -source /auto/fsb/ryan9801/ECEN_323/lab11/proj_final_processor/proj_final_processor.sim/sim_2/behav/xsim/xsim.dir/riscv_final_tb_behav/webtalk/xsim_webtalk.tcl -notrace
+# Log file: /auto/fsb/ryan9801/ECEN_323/lab11/proj_final_processor/proj_final_processor.sim/sim_2/behav/xsim/webtalk.log
+# Journal file: /auto/fsb/ryan9801/ECEN_323/lab11/proj_final_processor/proj_final_processor.sim/sim_2/behav/xsim/webtalk.jou
+#-----------------------------------------------------------
+source /auto/fsb/ryan9801/ECEN_323/lab11/proj_final_processor/proj_final_processor.sim/sim_2/behav/xsim/xsim.dir/riscv_final_tb_behav/webtalk/xsim_webtalk.tcl -notrace

@@ -1,0 +1,86 @@
+ Address    Code        Basic                     Source
+
+0x00000000  0x00004137  lui x2,0x00000004     40       lui sp, 4				# 4 << 12 = 0x4000
+0x00000004  0xffc10113  addi x2,x2,0xfffffffc 41       addi sp, sp, -4			# 0x4000 - 4 = 0x3ffc
+0x00000008  0x000021b7  lui x3,0x00000002     43       lui gp, 2
+0x0000000c  0x00000413  addi x8,x0,0x00000000 46       addi s0, x0, 0			# Loop index (initialize to zero)
+0x00000010  0x0001a483  lw x9,0x00000000(x3)  58       lw s1,%lo(fib_count)(gp)	 # Load terminal count into s1
+0x00000014  0x00800533  add x10,x0,x8         62       mv a0, s0
+0x00000018  0x08c000ef  jal x1,0x00000046     63       jal iterative_fibinnoci
+0x0000001c  0x00a00933  add x18,x0,x10        65       mv s2, a0
+0x00000020  0x00800533  add x10,x0,x8         67       mv a0, s0	
+0x00000024  0x0d0000ef  jal x1,0x00000068     68       jal recursive_fibinnoci
+0x00000028  0x00a009b3  add x19,x0,x10        70       mv s3, a0
+0x0000002c  0x00f47a13  andi x20,x8,0x0000000f73       andi s4, s0, 0xf	# keep lower 4 bits (between zero and fifteen)
+0x00000030  0x002a1a13  slli x20,x20,0x000000075       slli s4, s4, 2
+0x00000034  0x00418a93  addi x21,x3,0x0000000478       addi s5, x3, %lo(iterative_data)
+0x00000038  0x014a8ab3  add x21,x21,x20       80       add s5, s5, s4
+0x0000003c  0x012aa023  sw x18,0x00000000(x21)82       sw s2,(s5)
+0x00000040  0x04418a93  addi x21,x3,0x0000004485       addi s5, x3, %lo(recursive_data)
+0x00000044  0x014a8ab3  add x21,x21,x20       86       add s5, s5, s4
+0x00000048  0x013aa023  sw x19,0x00000000(x21)88       sw s3,(s5)
+0x0000004c  0x00940663  beq x8,x9,0x00000006  91       beq s0, s1, done
+0x00000050  0x00140413  addi x8,x8,0x00000001 92       addi s0, s0, 1
+0x00000054  0xfc1ff06f  jal x0,0xffffffe0     94       j FIB_LOOP
+0x00000058  0x00000293  addi x5,x0,0x00000000 99       addi t0, x0, 0     	# Counter (initialize to zero)
+0x0000005c  0x01000313  addi x6,x0,0x00000010 100      addi t1, x0, 16		# Terminal count for loop
+0x00000060  0x00000513  addi x10,x0,0x00000000101      addi a0, x0, 0		# Intialize a0 t0 zero
+0x00000064  0x00418393  addi x7,x3,0x00000004 103      addi t2, gp, %lo(iterative_data)
+0x00000068  0x04418e13  addi x28,x3,0x00000044105      addi t3, gp, %lo(recursive_data)
+0x0000006c  0x0003ae83  lw x29,0x00000000(x7) 109      lw t4, (t2)
+0x00000070  0x01d50533  add x10,x10,x29       110      add a0, a0, t4
+0x00000074  0x000e2e83  lw x29,0x00000000(x28)111      lw t4, (t3)
+0x00000078  0x01d50533  add x10,x10,x29       112      add a0, a0, t4
+0x0000007c  0x00438393  addi x7,x7,0x00000004 113      addi t2, t2, 4		# increment pointer
+0x00000080  0x004e0e13  addi x28,x28,0x0000000114      addi t3, t3, 4		# increment pointer
+0x00000084  0x00128293  addi x5,x5,0x00000001 115      addi t0, t0, 1
+0x00000088  0xfe62c2e3  blt x5,x6,0xfffffff2  116      blt t0, t1, final_add
+0x0000008c  0x00a00893  addi x17,x0,0x0000000a120      addi a7, x0, 10   # Exit system call
+0x00000090  0x00100073  ebreak                121      ebreak
+0x00000094  0xff9ff06f  jal x0,0xfffffffc     123      jal x0, END
+0x00000098  0x00000013  addi x0,x0,0x00000000 124      nop
+0x0000009c  0x00000013  addi x0,x0,0x00000000 125      nop
+0x000000a0  0x00000013  addi x0,x0,0x00000000 126      nop
+0x000000a4  0xff410113  addi x2,x2,0xfffffff4 134  	addi sp, sp, -12            # Make room to save values on the stack
+0x000000a8  0x00812023  sw x8,0x00000000(x2)  135      sw s0, 0(sp)                # Save the caller s0 on stack. Used as the subroutine fibonacci (a-1) argument
+0x000000ac  0x00912223  sw x9,0x00000004(x2)  136      sw s1, 4(sp)                # Save the caller s1 on stack. Used as the subroutine fibonacci (a-2) argument
+0x000000b0  0x00112423  sw x1,0x00000008(x2)  137      sw ra, 8(sp)                # The return address needs to be saved to know where subroutine was called from 
+0x000000b4  0x02a00663  beq x0,x10,0x00000016 139     	beq x0, a0, iterative_return 			# Branch to return_zero if input (a0) is 0
+0x000000b8  0x00100293  addi x5,x0,0x00000001 140      addi t0, x0, 1 					# Set register t0 to 1 for the coming up check
+0x000000bc  0x02550263  beq x10,x5,0x00000012 141      beq a0, t0, iterative_return 			# Branch to return_one if input (a0) is 1
+0x000000c0  0xfff50413  addi x8,x10,0xffffffff143     	addi s0, a0, -1				# Set the subroutine fibonacci argument to a-1
+0x000000c4  0xffe50493  addi x9,x10,0xfffffffe144     	addi s1, a0, -2				# Set the subroutine fibonacci argument to a-2
+0x000000c8  0x00800533  add x10,x0,x8         146     	add a0, x0, s0					# Set the input argument to the subroutine argument (a-1)
+0x000000cc  0xfd9ff0ef  jal x1,0xffffffec     147     	jal iterative_fibinnoci				# Call the fibonacci function as the first subroutine
+0x000000d0  0x00a00433  add x8,x0,x10         148     	add s0, x0, a0					# Save the result in s0 for addition later
+0x000000d4  0x00900533  add x10,x0,x9         150     	add a0, x0, s1					# Set the input argument to the subroutine argument (a-2)
+0x000000d8  0xfcdff0ef  jal x1,0xffffffe6     151     	jal iterative_fibinnoci				# Call the fibonacci function as the second subroutine
+0x000000dc  0x00850533  add x10,x10,x8        152     	add a0, a0, s0				# Add the two results together and store it in the return register
+0x000000e0  0x00012403  lw x8,0x00000000(x2)  155  	lw s0, 0(sp)                # Restore callee saved regs used. Load previous callee fibonacci (a-1) argument
+0x000000e4  0x00412483  lw x9,0x00000004(x2)  156      lw s1, 4(sp)                # Restore callee saved regs used. Load previous callee fibonacci (a-2) argument
+0x000000e8  0x00812083  lw x1,0x00000008(x2)  157      lw ra, 8(sp)                # Restore return address
+0x000000ec  0x00c10113  addi x2,x2,0x0000000c 158      addi sp, sp, 12             # Update stack pointer
+0x000000f0  0x00008067  jalr x0,x1,0x00000000 161      ret
+0x000000f4  0x04a00663  beq x0,x10,0x00000026 169  	beq x0, a0, recursive_return 			# Branch to return if input (a0) is 0
+0x000000f8  0x00100293  addi x5,x0,0x00000001 171      addi t0, x0, 1 					# Set register t0 to 1 for the coming up check
+0x000000fc  0x04550263  beq x10,x5,0x00000022 172      beq a0, t0, recursive_return 			# Branch to return_one if input (a0) is 1
+0x00000100  0x00000e13  addi x28,x0,0x00000000174      addi t3, x0, 0					# Set register s4 to 0 as variable fib_2
+0x00000104  0x00100e93  addi x29,x0,0x00000001175      addi t4, x0, 1					# Set register s5 to 1 as variable fib_1
+0x00000108  0x00000f13  addi x30,x0,0x00000000176      addi t5, x0, 0					# Set register s6 to 0 as variable fib	
+0x0000010c  0x00200293  addi x5,x0,0x00000002 180  	addi t0, x0, 2   			# t0 is the loop variable, initialized to 2 (corresponds to i=2)
+0x00000110  0x00150313  addi x6,x10,0x00000001181      addi t1, a0, 1				# t1 is the loop limit constant, add 1 to the limit to satisfy the loop condition (corresponds to limit=(a+1))
+0x00000114  0x0062dc63  bge x5,x6,0x0000000c  185     	bge t0, t1, recursive_loop_end 		# branch out of loop if the index is >= limit (corresponds to i>=a)
+0x00000118  0x01de0f33  add x30,x28,x29       188  	add t5, t3, t4				# store the value of s4 + s5 to s6 (corresponds to fib = fib_1 + fib_2)
+0x0000011c  0x01d00e33  add x28,x0,x29        189  	add t3, x0, t4					# set the value of s4 to the value of s5 (corresponds to fib_2 = fib_1)
+0x00000120  0x01e00eb3  add x29,x0,x30        190  	add t4, x0, t5					# set the value of s5 to the value of s6 (corresponds to fib_1 = fib)
+0x00000124  0x00128293  addi x5,x5,0x00000001 193     	addi t0, t0, 1    			# Increment loop index t0
+0x00000128  0xfe0006e3  beq x0,x0,0xfffffff6  194     	beq x0, x0, recursive_loop_body_start # Unconditional branch back to the start of the loop
+0x0000012c  0x01e00533  add x10,x0,x30        197  	add a0, x0, t5					# Load value of register s6 to register a0, setting return value to fib
+0x00000130  0x00008067  jalr x0,x1,0x00000000 200      ret
+0x00000134  0x00000013  addi x0,x0,0x00000000 202      nop
+0x00000138  0x00000013  addi x0,x0,0x00000000 203      nop
+0x0000013c  0x00000013  addi x0,x0,0x00000000 204      nop
+0x00000140  0x00008067  jalr x0,x1,0x00000000 208      ret							# return from a subroutine
+0x00000144  0x00000013  addi x0,x0,0x00000000 209  	nop
+0x00000148  0x00000013  addi x0,x0,0x00000000 210  	nop
+0x0000014c  0x00000013  addi x0,x0,0x00000000 211  	nop

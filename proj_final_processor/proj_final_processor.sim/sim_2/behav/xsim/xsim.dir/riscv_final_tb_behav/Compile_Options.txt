@@ -1,0 +1,1 @@
+-wto "a2bde4f5fe344452bc233cef09acfa17" --incr --debug "typical" --relax --mt "8" -generic_top "TEXT_MEMORY_FILENAME=final_text.mem" -generic_top "DATA_MEMORY_FILENAME=final_data.mem" -L "xil_defaultlib" -L "unisims_ver" -L "unimacro_ver" -L "secureip" --snapshot "riscv_final_tb_behav" "xil_defaultlib.riscv_final_tb" "xil_defaultlib.glbl" -log "elaborate.log" 

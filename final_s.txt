@@ -1,0 +1,113 @@
+ Address    Code        Basic                     Source
+
+0x00000000  0x000020b7  lui x1,0x00000002     20       lui x1, 0x2        # 0x2 << 12 = 0x2000     	
+0x00000004  0xfffff137  lui x2,0x000fffff     24       lui x2, 0xfffff
+0x00000008  0x8f000113  addi x2,x0,0xfffff8f0 25       addi x2, x0, 0xfffff8f0
+0x0000000c  0xfff00313  addi x6,x0,0xffffffff 28       addi x6, x0, -1         # x6 = -1
+0x00000010  0xff800393  addi x7,x0,0xfffffff8 29       addi x7, x0, -8         # x7 = -8
+0x00000014  0x00100413  addi x8,x0,0x00000001 30       addi x8, x0, 1          # x8 = 1
+0x00000018  0x05100493  addi x9,x0,0x00000051 31       addi x9, x0, 81         # x9 = 81
+0x0000001c  0x00048513  addi x10,x9,0x0000000032       addi x10, x9, 0         # x10 = 0
+0x00000020  0x16940663  beq x8,x9,0x000000b6  35       beq x8, x9, ERROR       # beq not taken 
+0x00000024  0x00a48463  beq x9,x10,0x00000004 36       beq x9, x10, BNE_TEST   # beq taken
+0x00000028  0x16000263  beq x0,x0,0x000000b2  37       beq x0, x0, ERROR       # Shouldn't execute
+0x0000002c  0x16949063  bne x9,x9,0x000000b0  39       bne x9, x9, ERROR       # BNE_TEST: bne not taken
+0x00000030  0x00849463  bne x9,x8,0x00000004  40       bne x9, x8, BLT_TEST1   # bne taken
+0x00000034  0x14000c63  beq x0,x0,0x000000ac  41       beq x0, x0, ERROR       # Shouldn't execute
+0x00000038  0x1464ca63  blt x9,x6,0x000000aa  43       blt x9, x6, ERROR       # BLT_TEST1: BLT not taken (81 !< -1)
+0x0000003c  0x00934463  blt x6,x9,0x00000004  44       blt x6, x9, BLT_TEST2   # BLT taken (-1 < 81)
+0x00000040  0x14000663  beq x0,x0,0x000000a6  45       beq x0, x0, ERROR       # Shouldn't execute
+0x00000044  0x1484c463  blt x9,x8,0x000000a4  47       blt x9, x8, ERROR       # BLT_TEST2: BLT not taken (81 !< 1)
+0x00000048  0x00944463  blt x8,x9,0x00000004  48       blt x8, x9, BLT_TEST3   # BLT taken (1 < 81)
+0x0000004c  0x14000063  beq x0,x0,0x000000a0  49       beq x0, x0, ERROR
+0x00000050  0x1294ce63  blt x9,x9,0x0000009e  51       blt x9, x9, ERROR       # BLT_TEST3: BLT not taken when registers equal (81==81)
+0x00000054  0x00944463  blt x8,x9,0x00000004  52       blt x8, x9, BGE_TEST1   # BLT taken (1 < 81)
+0x00000058  0x12000a63  beq x0,x0,0x0000009a  53       beq x0, x0, ERROR
+0x0000005c  0x12935863  bge x6,x9,0x00000098  55       bge x6, x9, ERROR		# BGE_TEST1: BGE not taken (-1 !> 81)
+0x00000060  0x00a4d463  bge x9,x10,0x00000004 56       bge x9, x10 BGE_TEST2	# BGE taken (81 == 81)
+0x00000064  0x12000463  beq x0,x0,0x00000094  57       beq x0, x0, ERROR       # Shouldn't execute
+0x00000068  0x1263d263  bge x7,x6,0x00000092  59       bge x7, x6, ERROR		# BGE_TEST2: BGE not taken (-8 !> -1)
+0x0000006c  0x00735a63  bge x6,x7,0x0000000a  60       bge x6, x7, JUMP_TESTS  # BGE taken (-1 > -8)
+0x00000070  0x10000e63  beq x0,x0,0x0000008e  61       beq x0, x0, ERROR       # Shouldn't execute
+0x00000074  0x00000013  addi x0,x0,0x00000000 62       nop
+0x00000078  0x00000013  addi x0,x0,0x00000000 63       nop
+0x0000007c  0x00000013  addi x0,x0,0x00000000 64       nop
+0x00000080  0x1100006f  jal x0,0x00000088     70       jal x0, JUMP_TEST1
+0x00000084  0x11000fef  jal x31,0x00000088    73       jal x31, JUMP_TEST3	    # JUMP_TEST2
+0x00000088  0x1100006f  jal x0,0x00000088     75       jal x0, JUMP_TEST4
+0x0000008c  0x0000a103  lw x2,0x00000000(x1)  76       lw x2, 0(x1)
+0x00000090  0x00110193  addi x3,x2,0x00000001 77       addi x3, x2, 1
+0x00000094  0x10800fef  jal x31,0x00000084    80       jal x31, JUMP_TEST6	    # JUMP_TEST5
+0x00000098  0x0001c1b3  xor x3,x3,x0          82       xor x3, x3, x0
+0x0000009c  0xfff00113  addi x2,x0,0xffffffff 84       addi x2, x0, -1
+0x000000a0  0x0021c1b3  xor x3,x3,x2          86       xor x3, x3, x2
+0x000000a4  0x000020b7  lui x1,0x00000002     91       lui x1, 0x2        # 0x2 << 12 = 0x2000     		
+0x000000a8  0x0000a103  lw x2,0x00000000(x1)  94       lw x2, 0(x1)
+0x000000ac  0x0040a183  lw x3,0x00000004(x1)  97       lw x3, 4(x1)
+0x000000b0  0x00316233  or x4,x2,x3           101      or x4, x2, x3
+0x000000b4  0x003172b3  and x5,x2,x3          104      and x5, x2, x3
+0x000000b8  0x00414333  xor x6,x2,x4          107      xor x6, x2, x4
+0x000000bc  0x002323b3  slt x7,x6,x2          110      slt x7, x6, x2
+0x000000c0  0x00312433  slt x8,x2,x3          113      slt x8, x2, x3
+0x000000c4  0x404384b3  sub x9,x7,x4          116      sub x9, x7, x4
+0x000000c8  0xffc48513  addi x10,x9,0xfffffffc119      addi x10, x9, -4
+0x000000cc  0x0ff54593  xori x11,x10,0x000000f122      xori x11, x10, 0xff
+0x000000d0  0x3704e613  ori x12,x9,0x00000370 125      ori x12, x9, 0x370
+0x000000d4  0xffd4a693  slti x13,x9,0xfffffffd128      slti x13, x9, -3
+0x000000d8  0x3ff5a713  slti x14,x11,0x000003f131      slti x14, x11, 0x3ff
+0x000000dc  0x0080a803  lw x16,0x00000008(x1) 134      lw x16, 8(x1)
+0x000000e0  0x0100a623  sw x16,0x0000000c(x1) 138      sw x16, 12(x1)
+0x000000e4  0x00c0a883  lw x17,0x0000000c(x1) 141      lw x17, 12(x1)
+0x000000e8  0x01088c63  beq x17,x16,0x0000000c144      beq x17,x16, SAME_VALUE
+0x000000ec  0x03f88113  addi x2,x17,0x0000003f147      addi x2,x17,0x3f
+0x000000f0  0x3f02e193  ori x3,x5,0x000003f0  149      ori x3,x5, 0x3f0
+0x000000f4  0x00b2c1b3  xor x3,x5,x11         151      xor x3,x5,x11
+0x000000f8  0x3ff2f213  andi x4,x5,0x000003ff 152      andi x4,x5,0x3ff
+0x000000fc  0x40208333  sub x6,x1,x2          153      sub x6,x1,x2
+0x00000100  0x08100063  beq x0,x1,0x00000040  158      beq x0, x1, END
+0x00000104  0x00000913  addi x18,x0,0x00000000161      addi x18, x0, 0  # clear register x18
+0x00000108  0x00190933  add x18,x18,x1        163      add x18, x18, x1
+0x0000010c  0x00290933  add x18,x18,x2        164      add x18, x18, x2
+0x00000110  0x00390933  add x18,x18,x3        165      add x18, x18, x3
+0x00000114  0x00490933  add x18,x18,x4        166      add x18, x18, x4
+0x00000118  0x00590933  add x18,x18,x5        167      add x18, x18, x5
+0x0000011c  0x00690933  add x18,x18,x6        168      add x18, x18, x6
+0x00000120  0x00790933  add x18,x18,x7        169      add x18, x18, x7
+0x00000124  0x00890933  add x18,x18,x8        170      add x18, x18, x8
+0x00000128  0x00990933  add x18,x18,x9        171      add x18, x18, x9
+0x0000012c  0x00a90933  add x18,x18,x10       172      add x18, x18, x10
+0x00000130  0x00b90933  add x18,x18,x11       173      add x18, x18, x11
+0x00000134  0x00c90933  add x18,x18,x12       174      add x18, x18, x12
+0x00000138  0x00d90933  add x18,x18,x13       175      add x18, x18, x13
+0x0000013c  0x00e90933  add x18,x18,x14       176      add x18, x18, x14
+0x00000140  0x00f90933  add x18,x18,x15       177      add x18, x18, x15
+0x00000144  0x01090933  add x18,x18,x16       178      add x18, x18, x16
+0x00000148  0x01190933  add x18,x18,x17       179      add x18, x18, x17			
+0x0000014c  0x00000b93  addi x23,x0,0x00000000184      addi x23, x0, 0         # x23 will be the memory contents sum
+0x00000150  0x00000993  addi x19,x0,0x00000000185      addi x19, x0, 0         # loop index
+0x00000154  0x00900a13  addi x20,x0,0x00000009186      addi x20, x0, 9         # terminal count
+0x00000158  0x00100ab3  add x21,x0,x1         187      add x21, x0, x1         # pointer that changes in loop
+0x0000015c  0x01400fef  jal x31,0x0000000a    190      jal x31, ADD_PROC           # jump to the ADD_PROC to do the adds
+0x00000160  0x01498e63  beq x19,x20,0x0000000e192      beq x19, x20, FINAL_SUM     # see if my loop index is the same as the terminal count. If so, exit
+0x00000164  0x004a8a93  addi x21,x21,0x0000000193      addi x21,x21,4              # otherwise increment loop counter and pointer and jump back
+0x00000168  0x00198993  addi x19,x19,0x0000000194      addi x19,x19,1
+0x0000016c  0xff1ff06f  jal x0,0xfffffff8     195      jal x0, SIMPLE_LOOP
+0x00000170  0x000aab03  lw x22,0x00000000(x21)198      lw x22, 0(x21)           # Load value from memory
+0x00000174  0x016b8bb3  add x23,x23,x22       199      add x23, x23, x22		 # add it to our running total
+0x00000178  0x000f8067  jalr x0,x31,0x00000000200      jalr x0, x31, 0			 # Return to where we started (don't save return address)
+0x0000017c  0x012b8c33  add x24,x23,x18       204      add x24, x23, x18
+0x00000180  0x00a00893  addi x17,x0,0x0000000a208      addi a7, x0, 10   # Exit system call
+0x00000184  0x00100073  ebreak                209      ebreak
+0x00000188  0xff9ff06f  jal x0,0xfffffffc     210      jal x0, END
+0x0000018c  0x00000063  beq x0,x0,0x00000000  214      beq x0, x0, ERROR
+0x00000190  0xef5ff06f  jal x0,0xffffff7a     217      jal x0, JUMP_TEST2		# JUMP_TEST1 (negative PC offset)
+0x00000194  0x000f8f67  jalr x30,x31,0x0000000221      jalr x30, x31, 0			# JUMP_TEST3
+0x00000198  0xefdff06f  jal x0,0xffffff7e     223      jal x0, JUMP_TEST5
+0x0000019c  0x004f8f93  addi x31,x31,0x0000000226      addi x31, x31, 4			# JUMP_TEST6
+0x000001a0  0x00000013  addi x0,x0,0x00000000 228      addi x0, x0, 0
+0x000001a4  0x000f8067  jalr x0,x31,0x00000000229      jalr x0, x31, 0
+0x000001a8  0x0000a183  lw x3,0x00000000(x1)  231      lw x3, 0(x1)
+0x000001ac  0x00418113  addi x2,x3,0x00000004 232      addi x2, x3, 4
+0x000001b0  0x00000013  addi x0,x0,0x00000000 233      nop
+0x000001b4  0x00000013  addi x0,x0,0x00000000 234      nop
+0x000001b8  0x00000013  addi x0,x0,0x00000000 235      nop

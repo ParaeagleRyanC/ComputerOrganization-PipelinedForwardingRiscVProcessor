@@ -1,0 +1,13 @@
+# compile verilog/system verilog design source files
+sv xil_defaultlib  -i "../../../../../../include" -i "../../../../../../lab08" \
+"../../../../../../lab02/alu.sv" \
+"../../../../../../lab03/regfile.sv" \
+"../../../../../riscv_final.sv" \
+"../../../../../../lab08/tb_riscv.sv" \
+"../../../../../riscv_final_tb.sv" \
+
+# compile glbl module
+verilog xil_defaultlib "glbl.v"
+
+# Do not sort compile order
+nosort

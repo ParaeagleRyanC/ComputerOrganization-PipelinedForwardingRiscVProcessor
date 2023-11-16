@@ -1,0 +1,20 @@
+Vivado Simulator 2019.2
+Copyright 1986-1999, 2001-2019 Xilinx, Inc. All Rights Reserved.
+Running: /tools/Xilinx/Vivado/2019.2/bin/unwrapped/lnx64.o/xelab -wto a2bde4f5fe344452bc233cef09acfa17 --incr --debug typical --relax --mt 8 -generic_top TEXT_MEMORY_FILENAME=fib_text.mem -generic_top DATA_MEMORY_FILENAME=fib_data.mem -L xil_defaultlib -L unisims_ver -L unimacro_ver -L secureip --snapshot riscv_final_tb_behav xil_defaultlib.riscv_final_tb xil_defaultlib.glbl -log elaborate.log 
+Using 8 slave threads.
+Starting static elaboration
+Pass Through NonSizing Optimizer
+WARNING: [VRFC 10-3532] module 'glbl' does not have a parameter named 'TEXT_MEMORY_FILENAME' to override [/auto/fsb/ryan9801/ECEN_323/lab11/proj_final_processor/proj_final_processor.sim/sim_3/behav/xsim/glbl.v:6]
+Completed static elaboration
+Starting simulation data flow analysis
+Completed simulation data flow analysis
+Time Resolution for simulation is 1ps
+Compiling module xil_defaultlib.regfile
+Compiling module xil_defaultlib.alu
+Compiling module xil_defaultlib.riscv_final(INITIAL_PC=32'b0)
+Compiling module xil_defaultlib.instruction_memory(TEXT_MEMORY_F...
+Compiling module xil_defaultlib.data_memory(DATA_MEMORY_WORDS=20...
+Compiling module xil_defaultlib.riscv_final_sim_model(INITIAL_PC...
+Compiling module xil_defaultlib.riscv_final_tb
+Compiling module xil_defaultlib.glbl
+Built simulation snapshot riscv_final_tb_behav

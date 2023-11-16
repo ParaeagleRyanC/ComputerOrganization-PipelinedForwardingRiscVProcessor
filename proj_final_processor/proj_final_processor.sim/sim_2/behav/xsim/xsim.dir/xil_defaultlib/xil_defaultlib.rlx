@@ -1,0 +1,13 @@
+0.6
+2019.2
+Nov  6 2019
+21:42:20
+/auto/fsb/ryan9801/ECEN_323/include/riscv_alu_constants.sv,1677524886,verilog,,,,,,,,,,,,
+/auto/fsb/ryan9801/ECEN_323/include/riscv_datapath_constants.sv,1679951693,verilog,,,,,,,,,,,,
+/auto/fsb/ryan9801/ECEN_323/lab02/alu.sv,1676329694,systemVerilog,,/auto/fsb/ryan9801/ECEN_323/lab03/regfile.sv,/auto/fsb/ryan9801/ECEN_323/include/riscv_alu_constants.sv,alu,,,../../../../../../include;../../../../../../lab08,,,,,
+/auto/fsb/ryan9801/ECEN_323/lab03/regfile.sv,1674509347,systemVerilog,,/auto/fsb/ryan9801/ECEN_323/lab11/riscv_final.sv,,regfile,,,../../../../../../include;../../../../../../lab08,,,,,
+/auto/fsb/ryan9801/ECEN_323/lab08/tb_pipeline_inc.sv,1679161404,verilog,,,,,,,,,,,,
+/auto/fsb/ryan9801/ECEN_323/lab08/tb_riscv.sv,1679161404,systemVerilog,,/auto/fsb/ryan9801/ECEN_323/lab11/riscv_final_tb.sv,/auto/fsb/ryan9801/ECEN_323/lab08/tb_pipeline_inc.sv,data_memory;instruction_memory,,,../../../../../../include;../../../../../../lab08,,,,,
+/auto/fsb/ryan9801/ECEN_323/lab11/proj_final_processor/proj_final_processor.sim/sim_2/behav/xsim/glbl.v,1573089660,verilog,,,,glbl,,,,,,,,
+/auto/fsb/ryan9801/ECEN_323/lab11/riscv_final.sv,1679954221,systemVerilog,,/auto/fsb/ryan9801/ECEN_323/lab08/tb_riscv.sv,/auto/fsb/ryan9801/ECEN_323/include/riscv_datapath_constants.sv;/auto/fsb/ryan9801/ECEN_323/include/riscv_alu_constants.sv,riscv_final,,,../../../../../../include;../../../../../../lab08,,,,,
+/auto/fsb/ryan9801/ECEN_323/lab11/riscv_final_tb.sv,1679161405,systemVerilog,,,/auto/fsb/ryan9801/ECEN_323/lab08/tb_pipeline_inc.sv,riscv_final_tb,,,../../../../../../include;../../../../../../lab08,,,,,

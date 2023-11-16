@@ -1,0 +1,12 @@
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/auto/fsb/ryan9801/ECEN_323/lab02/alu.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module alu
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/auto/fsb/ryan9801/ECEN_323/lab03/regfile.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module regfile
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/auto/fsb/ryan9801/ECEN_323/lab11/riscv_final.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module riscv_final
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/auto/fsb/ryan9801/ECEN_323/lab08/tb_riscv.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module instruction_memory
+INFO: [VRFC 10-311] analyzing module data_memory
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/auto/fsb/ryan9801/ECEN_323/lab11/riscv_final_tb.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module riscv_final_tb
+INFO: [VRFC 10-311] analyzing module riscv_final_sim_model
