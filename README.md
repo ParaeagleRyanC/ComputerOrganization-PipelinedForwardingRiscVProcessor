@@ -2,7 +2,7 @@
 
 This program, **RISC-V Processor**, is the final product of several layers of work. Including **Datapath**, **Control**, **I/O System**, **Pipelining**, and **Forwarding**. 
 
-Various hazards are properly detected and handled in order to ensure a successfuly processor.
+Various hazards are properly detected and handled in order to ensure a successful processor.
 * `Load-Use` Hazard -- occurs when a load instruction is followed by an instruction that needs the result of the memory load
 * `Control` Hazards -- hazards that change the program counter (PC)
 * `Load-Use/Branching` Hazard -- occurs when a ‘load-use’ stall occurs in the pipeline at the same time that a branch is taken
